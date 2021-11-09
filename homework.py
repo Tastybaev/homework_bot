@@ -4,6 +4,8 @@ import requests
 
 import telegram
 
+import time
+
 
 PRACTICUM_TOKEN = 'AQAAAAA-IasbAAYckSaOJjEn-kDmukhNLA-_4NA'
 TELEGRAM_TOKEN = '2093395141:AAF3PGObc08tWDQ9cTrzC6GadcnP_ZCn4tc'
@@ -26,7 +28,7 @@ HOMEWORK_STATUSES = {
 }
 
 
-def send_message(bot, message)-->str:
+def send_message(bot, message):
     bot.send_message(chat_id=CHAT_ID, text=message)
 
 
