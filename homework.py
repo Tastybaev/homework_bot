@@ -1,11 +1,9 @@
 import logging
 
-from http import HTTPStatus
-
 import requests
+
 import telegram
-import utils
-import os
+
 
 PRACTICUM_TOKEN = 'AQAAAAA-IasbAAYckSaOJjEn-kDmukhNLA-_4NA'
 TELEGRAM_TOKEN = '2093395141:AAF3PGObc08tWDQ9cTrzC6GadcnP_ZCn4tc'
@@ -26,6 +24,7 @@ HOMEWORK_STATUSES = {
     'reviewing': 'Работа взята на проверку ревьюером.',
     'rejected': 'Работа проверена, в ней нашлись ошибки.'
 }
+
 
 def send_message(bot, message):
     bot.send_message(chat_id=CHAT_ID, text=message)
