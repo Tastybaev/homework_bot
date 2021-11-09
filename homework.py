@@ -29,6 +29,7 @@ HOMEWORK_STATUSES = {
 def send_message(bot, message):
     bot.send_message(chat_id=CHAT_ID, text=message)
 
+
 def get_api_answer(url, current_timestamp):
     date = {'from_date': current_timestamp}
     response = requests.get(url, headers=HEADERS, params=date)
@@ -37,11 +38,13 @@ def get_api_answer(url, current_timestamp):
         return response
     raise ValueError('что-то пошло не так!')
 
+
 def parse_status(homework):
     homework_name = homework.get('homework_name')
     homework_status = homework.get('status')
     verdict = HOMEWORK_STATUSES.get(homework_status)
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
+
 
 def check_response(response):
     homeworks = response.get('homeworks')
@@ -56,7 +59,7 @@ def check_response(response):
 
 def main():
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
-    current_timestamp = int(time.time())
+    current_timestamp = 0
     
     while True:
         try:
