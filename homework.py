@@ -9,7 +9,7 @@ import time
 
 PRACTICUM_TOKEN = 'AQAAAAA-IasbAAYckSaOJjEn-kDmukhNLA-_4NA'
 TELEGRAM_TOKEN = '2093395141:AAF3PGObc08tWDQ9cTrzC6GadcnP_ZCn4tc'
-CHAT_ID = 1454224325
+TELEGRAM_CHAT_ID = 1454224325
 
 logging.basicConfig(
     level=logging.INFO,
@@ -30,7 +30,7 @@ HOMEWORK_STATUSES = {
 
 def send_message(bot, message):
     """Функция для отправки вообщений."""
-    bot.send_message(chat_id=CHAT_ID, text=message)
+    bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
 
 
 def get_api_answer(url, current_timestamp):
@@ -77,7 +77,7 @@ def main():
             time.sleep(RETRY_TIME)
         except Exception as error:
             message = f'Сбой в работе программы: {error}'
-            bot.send_message(CHAT_ID, message)
+            bot.send_message(TELEGRAM_CHAT_ID, message)
             time.sleep(RETRY_TIME)
             continue
 
