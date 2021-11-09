@@ -57,10 +57,11 @@ def check_response(response):
         raise ValueError('Домашние работы отсутствуют!')
     raise ValueError('Ошибка! Что-то не то с сайтом.')
 
+
 def main():
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
-    current_timestamp = 0
-    
+    current_timestamp = int(time.time())
+
     while True:
         try:
             response = get_api_answer(ENDPOINT, current_timestamp)
