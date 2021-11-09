@@ -29,7 +29,7 @@ HOMEWORK_STATUSES = {
 
 
 def send_message(bot, message):
-    """функция для отправки вообщений"""
+    """функция для отправки вообщений."""
     bot.send_message(chat_id=CHAT_ID, text=message)
 
 
