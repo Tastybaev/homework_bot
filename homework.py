@@ -29,11 +29,12 @@ HOMEWORK_STATUSES = {
 
 
 def send_message(bot, message):
-    """функция для отправки вообщений."""
+    """Функция для отправки вообщений."""
     bot.send_message(chat_id=CHAT_ID, text=message)
 
 
 def get_api_answer(url, current_timestamp):
+    """Делаю запрос к единственному эндпоинту API-сервиса."""
     date = {'from_date': current_timestamp}
     response = requests.get(url, headers=HEADERS, params=date)
     if response.status_code == 200:
@@ -43,6 +44,7 @@ def get_api_answer(url, current_timestamp):
 
 
 def parse_status(homework):
+    """Извлекаю из информации о домашней работе статус этой работы."""
     homework_name = homework.get('homework_name')
     homework_status = homework.get('status')
     verdict = HOMEWORK_STATUSES.get(homework_status)
@@ -50,6 +52,7 @@ def parse_status(homework):
 
 
 def check_response(response):
+    """Проверяю ответ API на корректность."""
     homeworks = response.get('homeworks')
     homework_status = homeworks[0].get('status')
     if 'homeworks' in response:
@@ -62,6 +65,7 @@ def check_response(response):
 
 
 def main():
+    """Описываю основную логику работы программы."""
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
     current_timestamp = int(time.time())
 
