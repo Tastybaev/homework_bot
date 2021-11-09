@@ -26,7 +26,7 @@ HOMEWORK_STATUSES = {
 }
 
 
-def send_message(bot, message):
+def send_message(bot, message)-->str:
     bot.send_message(chat_id=CHAT_ID, text=message)
 
 
