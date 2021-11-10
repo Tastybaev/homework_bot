@@ -51,6 +51,14 @@ def parse_status(homework):
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
 
 
+def check_token(response):
+    """Проверяю TOKEN на корректность."""
+    response = requests.get(token=TELEGRAM_TOKEN)
+    if len(response)!=46:
+        return False
+    return True
+
+
 def check_response(response):
     """Проверяю ответ API на корректность."""
     homeworks = response.get('homeworks')
