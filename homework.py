@@ -54,7 +54,7 @@ def parse_status(homework):
 def check_token(response):
     """Проверяю TOKEN на корректность."""
     response = requests.get(token=TELEGRAM_TOKEN)
-    if len(response)!=46:
+    if len(response) != 46:
         return False
     return True
 
