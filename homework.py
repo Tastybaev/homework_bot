@@ -9,7 +9,7 @@ import time
 
 PRACTICUM_TOKEN = 'AQAAAAA-IasbAAYckSaOJjEn-kDmukhNLA-_4NA'
 TELEGRAM_TOKEN = '2093395141:AAF3PGObc08tWDQ9cTrzC6GadcnP_ZCn4tc'
-TELEGRAM_CHAT_ID = 1454224325
+TELEGRAM_CHAT_ID = '1454224325'
 
 logging.basicConfig(
     level=logging.INFO,
@@ -42,6 +42,9 @@ def get_api_answer(url, current_timestamp):
         return response
     raise ValueError('что-то пошло не так!')
 
+
+# def check_tokens():
+    
 
 def parse_status(homework):
     """Извлекаю из информации о домашней работе статус этой работы."""
