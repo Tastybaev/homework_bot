@@ -14,7 +14,7 @@ TELEGRAM_CHAT_ID = 1454224325
 logging.basicConfig(
     level=logging.INFO,
     filename='program.log',
-    format='%(asctime)s, %(levelname)s, %(message)s'
+    format='%(asctime)s, %(name)s, %(levelname)s, %(message)s'
 )
 
 HEADERS = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
