@@ -43,9 +43,6 @@ def get_api_answer(url, current_timestamp):
     raise ValueError('что-то пошло не так!')
 
 
-# def check_tokens():
-    
-
 def parse_status(homework):
     """Извлекаю из информации о домашней работе статус этой работы."""
     homework_name = homework.get('homework_name')
