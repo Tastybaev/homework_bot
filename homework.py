@@ -51,7 +51,7 @@ def parse_status(homework):
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
 
 
-def check_token(response):
+def check_tokens(response):
     """Проверяю TOKEN на корректность."""
     response = requests.get(token=TELEGRAM_TOKEN)
     if response.status_code == 200:
