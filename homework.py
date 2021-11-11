@@ -53,12 +53,10 @@ def parse_status(homework):
 
 def check_token(response):
     """Проверяю TOKEN на корректность."""
-    try:
-        response = requests.get(token=TELEGRAM_TOKEN)
-        if response.status_code == 200:
-            return True
-    except:
-        return False
+    response = requests.get(token=TELEGRAM_TOKEN)
+    if response.status_code == 200:
+        return True
+    return False
 
 
 def check_response(response):
