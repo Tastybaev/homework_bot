@@ -28,6 +28,14 @@ HOMEWORK_STATUSES = {
 }
 
 
+def check_tokens(response):
+    """Проверяю TOKEN на корректность."""
+    response = requests.get(token=TELEGRAM_TOKEN)
+    if response.status_code == 200:
+        return True
+    return False
+
+
 def send_message(bot, message):
     """Функция для отправки вообщений."""
     bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
@@ -49,14 +57,6 @@ def parse_status(homework):
     homework_status = homework.get('status')
     verdict = HOMEWORK_STATUSES.get(homework_status)
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
-
-
-def check_tokens(response):
-    """Проверяю TOKEN на корректность."""
-    response = requests.get(token=TELEGRAM_TOKEN)
-    if response.status_code == 200:
-        return True
-    return False
 
 
 def check_response(response):
