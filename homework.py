@@ -28,7 +28,7 @@ HOMEWORK_STATUSES = {
 }
 
 
-def check_tokens(response):
+def check_tokens():
     """Проверяю TOKEN на корректность."""
     response = requests.get(token=TELEGRAM_TOKEN)
     if response.status_code == 200:
