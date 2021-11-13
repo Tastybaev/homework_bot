@@ -33,10 +33,11 @@ def send_message(bot, message):
     bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
 
 
-def get_api_answer(url, current_timestamp):
+def get_api_answer(current_timestamp):
     """Делаю запрос к единственному эндпоинту API-сервиса."""
-    date = {'from_date': current_timestamp}
-    response = requests.get(url, headers=HEADERS, params=date)
+    timestamp = current_timestamp or int(time.time())
+    params = {'from_date': timestamp}
+    response = requests.get(ENDPOINT, headers=HEADERS, params=params)
     if response.status_code == 200:
         response = response.json()
         return response
@@ -51,7 +52,7 @@ def check_response(response):
         if homeworks:
             if homework_status in HOMEWORK_STATUSES:
                 return homeworks
-            raise ValueError('Статус домашней работы незадокментирован!')
+            raise ValueError('Статус домашней работы незадокументирован!')
         raise ValueError('Домашние работы отсутствуют!')
     raise ValueError('Ошибка! Что-то не то с сайтом.')
 
