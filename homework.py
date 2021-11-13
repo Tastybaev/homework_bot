@@ -17,23 +17,15 @@ logging.basicConfig(
     format='%(asctime)s, %(name)s, %(levelname)s, %(message)s'
 )
 
-HEADERS = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
-RETRY_TIME = 300
+RETRY_TIME = 600
 ENDPOINT = 'https://practicum.yandex.ru/api/user_api/homework_statuses/'
+HEADERS = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
 
 HOMEWORK_STATUSES = {
     'approved': 'Работа проверена: ревьюеру всё понравилось. Ура!',
     'reviewing': 'Работа взята на проверку ревьюером.',
-    'rejected': 'Работа проверена, в ней нашлись ошибки.'
+    'rejected': 'Работа проверена: у ревьюера есть замечания.'
 }
-
-
-def check_tokens():
-    """Проверяю TOKEN на корректность."""
-    response = requests.get(headers=HEADERS, token=TELEGRAM_TOKEN)
-    if response.status_code == 200:
-        return True
-    return False
 
 
 def send_message(bot, message):
@@ -51,14 +43,6 @@ def get_api_answer(url, current_timestamp):
     raise ValueError('что-то пошло не так!')
 
 
-def parse_status(homework):
-    """Извлекаю из информации о домашней работе статус этой работы."""
-    homework_name = homework.get('homework_name')
-    homework_status = homework.get('status')
-    verdict = HOMEWORK_STATUSES.get(homework_status)
-    return f'Изменился статус проверки работы "{homework_name}". {verdict}'
-
-
 def check_response(response):
     """Проверяю ответ API на корректность."""
     homeworks = response.get('homeworks')
@@ -70,6 +54,24 @@ def check_response(response):
             raise ValueError('Статус домашней работы незадокментирован!')
         raise ValueError('Домашние работы отсутствуют!')
     raise ValueError('Ошибка! Что-то не то с сайтом.')
+
+
+def parse_status(homework):
+    """Извлекаю из информации о домашней работе статус этой работы."""
+    homework_name = homework.get('homework_name')
+    homework_status = homework.get('status')
+    verdict = HOMEWORK_STATUSES.get(homework_status)
+    return f'Изменился статус проверки работы "{homework_name}". {verdict}'
+
+
+def check_tokens():
+    """Проверяю TOKEN на корректность."""
+    token_list = [PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID]
+    result =True
+    for i in token_list:
+        if i is None:
+            result = False
+        return result
 
 
 def main():
