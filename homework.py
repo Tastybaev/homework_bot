@@ -68,12 +68,12 @@ def parse_status(homework):
         raise KeyError()
     verdict = HOMEWORK_STATUSES[status]
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
- 
- 
+
+
 def check_tokens():
     """Проверяю TOKEN на корректность."""
     token_list = [PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID]
-    result =True
+    result = True
     for i in token_list:
         if i is None:
             result = False
@@ -96,7 +96,7 @@ def main():
             bot.send_message(TELEGRAM_CHAT_ID, message)
             time.sleep(RETRY_TIME)
             continue
- 
+
 
 if __name__ == '__main__':
     main()
