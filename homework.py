@@ -54,7 +54,7 @@ def check_response(response):
     homeworks = response.get('homeworks')
     if 'homeworks' in response:
         for homework in homeworks:
-            homework_status = homework.get('status')
+            homework.get('status')
         return homeworks
         raise ValueError('Домашние работы отсутствуют!')
     raise ValueError('Ошибка! Что-то не то с сайтом.')
