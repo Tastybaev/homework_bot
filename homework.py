@@ -8,6 +8,8 @@ import time
 
 from dotenv import load_dotenv
 
+from http import HTTPStatus
+
 load_dotenv()
 
 PRACTICUM_TOKEN = 'AQAAAAA-IasbAAYckSaOJjEn-kDmukhNLA-_4NA'
@@ -41,7 +43,7 @@ def get_api_answer(current_timestamp):
     timestamp = current_timestamp or int(time.time())
     params = {'from_date': timestamp}
     response = requests.get(ENDPOINT, headers=HEADERS, params=params)
-    if response.status_code == 200:
+    if response.status_code == HTTPStatus.OK:
         response = response.json()
         return response
     raise ValueError('что-то пошло не так!')
@@ -50,7 +52,7 @@ def get_api_answer(current_timestamp):
 def check_response(response):
     """Проверяю ответ API на корректность."""
     if type(response) is not dict:
-        raise TypeError()
+        raise TypeError('Неверный тип данных.')
     homeworks = response.get('homeworks')
     if 'homeworks' in response:
         for homework in homeworks:
@@ -65,7 +67,7 @@ def parse_status(homework):
     homework_name = homework.get('homework_name')
     status = homework.get('status')
     if status not in HOMEWORK_STATUSES:
-        raise KeyError()
+        raise KeyError('неверное значение ключа!')
     verdict = HOMEWORK_STATUSES[status]
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
 
@@ -74,8 +76,8 @@ def check_tokens():
     """Проверяю TOKEN на корректность."""
     token_list = [PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID]
     result = True
-    for i in token_list:
-        if i is None:
+    for token in token_list:
+        if token is None:
             result = False
         return result
 
@@ -93,7 +95,7 @@ def main():
             time.sleep(RETRY_TIME)
         except Exception as error:
             message = f'Сбой в работе программы: {error}'
-            bot.send_message(TELEGRAM_CHAT_ID, message)
+            send_message()
             time.sleep(RETRY_TIME)
             continue
 
