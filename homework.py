@@ -55,12 +55,13 @@ def check_response(response):
     if type(response) is not dict:
         raise TypeError('Неверный тип данных.')
     homeworks = response.get('homeworks')
-    if 'homeworks' is not None:
+    if 'homeworks' != None:
         for homework in homeworks:
             home_work_status = homework.get('status')
         return homeworks
     raise ValueError('Домашние работы отсутствуют!')
     if home_work_status is None or homework_name is None:
+        homework_name = homework.get('homework_name')
         raise KeyError('неверное значение ключа!')
     raise ValueError('Ошибка! Что-то не то с сайтом.')
 
@@ -86,9 +87,6 @@ def check_tokens():
 
 def main():
     """Описываю основную логику работы программы."""
-    bot = telegram.Bot(token=TELEGRAM_TOKEN)
-    current_timestamp = int(time.time())
-
     while True:
         try:
             response = get_api_answer(ENDPOINT, current_timestamp)
