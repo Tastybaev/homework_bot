@@ -87,6 +87,10 @@ def check_tokens():
 
 def main():
     """Описываю основную логику работы программы."""
+    current_timestamp = int(time.time())
+    bot = telegram.Bot(token=TELEGRAM_TOKEN)
+    logger = logging.getLogger(__name__)
+
     while True:
         try:
             response = get_api_answer(ENDPOINT, current_timestamp)
@@ -95,7 +99,7 @@ def main():
             time.sleep(RETRY_TIME)
         except Exception as error:
             message = f'Сбой в работе программы: {error}'
-            send_message()
+            log_and_inform(bot, logger, message)
             time.sleep(RETRY_TIME)
             continue
 
