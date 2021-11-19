@@ -55,7 +55,7 @@ def check_response(response):
     if type(response) is not dict:
         raise TypeError('Неверный тип данных.')
     homeworks = response.get('homeworks')
-    if homeworks != None:
+    if homeworks is not None:
         for homework in homeworks:
             home_work_status = homework.get('status')
         return homeworks
@@ -89,7 +89,6 @@ def main():
     """Описываю основную логику работы программы."""
     current_timestamp = int(time.time())
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
-    logger = logging.getLogger(__name__)
 
     while True:
         try:
@@ -99,7 +98,7 @@ def main():
             time.sleep(RETRY_TIME)
         except Exception as error:
             message = f'Сбой в работе программы: {error}'
-            log_and_inform(bot, logger, message)
+            send_message(bot, message)
             time.sleep(RETRY_TIME)
             continue
 
