@@ -36,6 +36,7 @@ HOMEWORK_STATUSES = {
 def send_message(bot, message):
     """Функция для отправки вообщений."""
     bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
+    logging.info(f'Отправлено сообщение: "{message}"')
 
 
 def get_api_answer(current_timestamp):
@@ -54,11 +55,13 @@ def check_response(response):
     if type(response) is not dict:
         raise TypeError('Неверный тип данных.')
     homeworks = response.get('homeworks')
-    if 'homeworks' in response:
+    if 'homeworks' is not None:
         for homework in homeworks:
-            homework.get('status')
+            home_work_status = homework.get('status')
         return homeworks
-        raise ValueError('Домашние работы отсутствуют!')
+    raise ValueError('Домашние работы отсутствуют!')
+    if home_work_status is None or homework_name is None:
+        raise KeyError('неверное значение ключа!')
     raise ValueError('Ошибка! Что-то не то с сайтом.')
 
 
@@ -66,8 +69,6 @@ def parse_status(homework):
     """Извлекаю из информации о домашней работе статус этой работы."""
     homework_name = homework.get('homework_name')
     status = homework.get('status')
-    if status not in HOMEWORK_STATUSES:
-        raise KeyError('неверное значение ключа!')
     verdict = HOMEWORK_STATUSES[status]
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
 
@@ -80,6 +81,7 @@ def check_tokens():
         if token is None:
             result = False
         return result
+        logging.info('Проверка Токена прошла успешно!')
 
 
 def main():
