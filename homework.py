@@ -21,6 +21,7 @@ logging.basicConfig(
     filename='main.log',
     format='%(asctime)s, %(name)s, %(levelname)s, %(message)s'
 )
+logger = logging.getLogger(__name__)
 
 RETRY_TIME = 600
 ENDPOINT = 'https://practicum.yandex.ru/api/user_api/homework_statuses/'
@@ -36,7 +37,7 @@ HOMEWORK_STATUSES = {
 def send_message(bot, message):
     """Функция для отправки вообщений."""
     bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
-    logging.info(f'Отправлено сообщение: "{message}"')
+    logger.info(f'Отправлено сообщение: "{message}"')
 
 
 def get_api_answer(current_timestamp):
@@ -58,12 +59,14 @@ def check_response(response):
     if homeworks is not None:
         for homework in homeworks:
             home_work_status = homework.get('status')
+            logger.info(f'статус домашней страницы: {home_work_status}')
         return homeworks
     raise ValueError('Домашние работы отсутствуют!')
-    homework_name = homework.get('homework_name')
-    if home_work_status is None or homework_name is None:
-        raise KeyError('неверное значение ключа!')
-    raise ValueError('Ошибка! Что-то не то с сайтом.')
+    keys = ['status', 'homework_name']
+    for key in keys:
+        if key not in homework:
+            message = f'Ключа {key} нет в ответе API'
+            raise KeyError(message)
 
 
 def parse_status(homework):
