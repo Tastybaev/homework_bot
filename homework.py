@@ -49,24 +49,23 @@ def get_api_answer(current_timestamp):
         response = response.json()
         return response
     raise ValueError('что-то пошло не так!')
+    logger.error('Не получет ответс АPI сервера.')
 
 
 def check_response(response):
     """Проверяю ответ API на корректность."""
     if type(response) is not dict:
-        raise TypeError('Неверный тип данных.')
+        raise TypeError('Неверный тип данных в отевете API.')
+        logger.error('Неверный тип данных в отевете API.')
     homeworks = response.get('homeworks')
-    if homeworks is not None:
-        for homework in homeworks:
-            home_work_status = homework.get('status')
-            logger.info(f'статус домашней страницы: {home_work_status}')
-        return homeworks
-    raise ValueError('Домашние работы отсутствуют!')
-    keys = ['status', 'homework_name']
-    for key in keys:
-        if key not in homework:
-            message = f'Ключа {key} нет в ответе API'
-            raise KeyError(message)
+    if homeworks is None:
+        raise ValueError('Домашние работы отсутствуют!')
+        logger.error('Домашние работы отсутствуют!')
+    if type(homeworks) is not list:
+        raise TypeError('Неверный тип данных для домашних заданий')
+        logger.error('Неверный тип данных для домашних заданий')
+    return homeworks
+    logger.info('Ваша домашняя работа.')
 
 
 def parse_status(homework):
