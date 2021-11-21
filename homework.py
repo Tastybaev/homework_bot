@@ -49,23 +49,23 @@ def get_api_answer(current_timestamp):
         response = response.json()
         return response
     raise ValueError('что-то пошло не так!')
-    logger.error('Не получет ответс АPI сервера.')
 
 
 def check_response(response):
     """Проверяю ответ API на корректность."""
     if type(response) is not dict:
         raise TypeError('Неверный тип данных в отевете API.')
-        logger.error('Неверный тип данных в отевете API.')
     homeworks = response.get('homeworks')
     if homeworks is None:
         raise ValueError('Домашние работы отсутствуют!')
-        logger.error('Домашние работы отсутствуют!')
     if type(homeworks) is not list:
         raise TypeError('Неверный тип данных для домашних заданий')
-        logger.error('Неверный тип данных для домашних заданий')
     return homeworks
-    logger.info('Ваша домашняя работа.')
+    keys = ['status', 'homework_name']
+    for key in keys:
+        if key not in homework:
+            message = f'Ключа {key} нет в ответе API'
+            raise KeyError(message)
 
 
 def parse_status(homework):
@@ -78,13 +78,14 @@ def parse_status(homework):
 
 def check_tokens():
     """Проверяю TOKEN на корректность."""
-    token_list = [PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID]
-    result = True
-    for token in token_list:
-        if token is None:
-            result = False
-        return result
-        logging.info('Проверка Токена прошла успешно!')
+    TOKENS = ('PRACTICUM_TOKEN', 'TELEGRAM_TOKEN', 'TELEGRAM_CHAT_ID')
+    NO_TOKEN = ('В переменных окружения нет {const}')
+    IF_TOKENS_EXISTS = True
+    for const in TOKENS:
+        if globals()[const] is None:
+            logger.critical(NO_TOKEN.format(const=const))
+            IF_TOKENS_EXISTS = False
+        return IF_TOKENS_EXISTS
 
 
 def main():
