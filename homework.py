@@ -63,7 +63,7 @@ def check_response(response):
     return homeworks
     keys = ['status', 'homework_name']
     for key in keys:
-        if key not in homework:
+        if key not in homeworks:
             message = f'Ключа {key} нет в ответе API'
             raise KeyError(message)
 
