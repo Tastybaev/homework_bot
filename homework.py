@@ -74,11 +74,9 @@ def parse_status(homework):
     status = homework.get('status')
     verdict = HOMEWORK_STATUSES[status]
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
-    response = requests.get(ENDPOINT, headers=HEADERS, params=params)
-    homeworks = response.get('homeworks')
     keys = ['status', 'homework_name']
     for key in keys:
-        if key not in homeworks:
+        if key not in keys:
             message = f'Ключа {key} нет в ответе API'
             logger.error(message)
             raise KeyError(message)
