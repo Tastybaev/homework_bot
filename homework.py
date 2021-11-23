@@ -72,14 +72,16 @@ def parse_status(homework):
     """Извлекаю из информации о домашней работе статус этой работы."""
     homework_name = homework.get('homework_name')
     status = homework.get('status')
+    if status not in HOMEWORK_STATUSES:
+        logger.error('статус неизвестен')
+        raise KeyError('статус неизвестен')
     verdict = HOMEWORK_STATUSES[status]
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
-    keys = ['status', 'homework_name']
-    for key in keys:
-        if key not in keys:
-            message = f'Ключа {key} нет в ответе API'
-            logger.error(message)
-            raise KeyError(message)
+    for name in homework_name:
+        if name is None:
+            logger.error('статус неизвестен')
+            raise KeyError('Названия работы неизвестно')
+    return f'Название работы - "{homework_name}"'
 
 
 def check_tokens():
