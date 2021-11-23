@@ -78,6 +78,7 @@ def parse_status(homework):
     for key in keys:
         if key not in homeworks:
             message = f'Ключа {key} нет в ответе API'
+            logger.error(message)
             raise KeyError(message)
 
 
