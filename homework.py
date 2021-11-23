@@ -78,7 +78,7 @@ def parse_status(homework):
 
     homework_name = homework.get('homework_name')
     if homework_name is None:
-        logger.error('статус неизвестен')
+        logger.error('Названия работы неизвестно')
         raise KeyError('Названия работы неизвестно')
 
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
