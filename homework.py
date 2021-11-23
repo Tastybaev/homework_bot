@@ -48,24 +48,24 @@ def get_api_answer(current_timestamp):
     if response.status_code == HTTPStatus.OK:
         response = response.json()
         return response
+    logger.error('Не получет ответс АPI сервера.')
     raise ValueError('что-то пошло не так!')
 
 
 def check_response(response):
     """Проверяю ответ API на корректность."""
     if type(response) is not dict:
+        logger.error('Неверный тип данных в отевете API.')
         raise TypeError('Неверный тип данных в отевете API.')
     homeworks = response.get('homeworks')
     if homeworks is None:
+        logger.error('Домашние работы отсутствуют!')
         raise ValueError('Домашние работы отсутствуют!')
     if type(homeworks) is not list:
+        logger.error('Неверный тип данных для домашних заданий')
         raise TypeError('Неверный тип данных для домашних заданий')
+    logger.info('Ваша домашняя работа.')
     return homeworks
-    keys = ['status', 'homework_name']
-    for key in keys:
-        if key not in homeworks:
-            message = f'Ключа {key} нет в ответе API'
-            raise KeyError(message)
 
 
 def parse_status(homework):
@@ -74,18 +74,23 @@ def parse_status(homework):
     status = homework.get('status')
     verdict = HOMEWORK_STATUSES[status]
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
+    keys = ['status', 'homework_name']
+    for key in keys:
+        if key not in homeworks:
+            message = f'Ключа {key} нет в ответе API'
+            raise KeyError(message)
 
 
 def check_tokens():
     """Проверяю TOKEN на корректность."""
-    TOKENS = ('PRACTICUM_TOKEN', 'TELEGRAM_TOKEN', 'TELEGRAM_CHAT_ID')
-    NO_TOKEN = ('В переменных окружения нет {const}')
-    IF_TOKENS_EXISTS = True
-    for const in TOKENS:
-        if globals()[const] is None:
-            logger.critical(NO_TOKEN.format(const=const))
-            IF_TOKENS_EXISTS = False
-        return IF_TOKENS_EXISTS
+    token_list = [PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID]
+    result = True
+    for token in token_list:
+        if token is None:
+            logger.critical('Проблемы с переменными окружения')
+            result = False
+    logger.info('Проверка Токена прошла успешно!')
+    return result
 
 
 def main():
@@ -95,6 +100,7 @@ def main():
 
     while True:
         try:
+            logger.info('')
             response = get_api_answer(ENDPOINT, current_timestamp)
             homework = check_response(response)
             message = parse_status(homework)
