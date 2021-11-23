@@ -75,7 +75,7 @@ def parse_status(homework):
         logger.error('статус неизвестен')
         raise KeyError('статус неизвестен')
     verdict = HOMEWORK_STATUSES[status]
-    
+
     homework_name = homework.get('homework_name')
     if homework_name is None:
         logger.error('статус неизвестен')
